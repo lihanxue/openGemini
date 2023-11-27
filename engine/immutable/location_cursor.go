@@ -50,6 +50,13 @@ func (l *LocationCursor) AddLocation(loc *Location) {
 	l.lcs = append(l.lcs, loc)
 }
 
+func (l *LocationCursor) GetLocation(i int) *Location {
+	if i < len(l.lcs) && i >= 0 {
+		return l.lcs[i]
+	}
+	return nil
+}
+
 func (l *LocationCursor) Len() int {
 	return len(l.lcs)
 }
