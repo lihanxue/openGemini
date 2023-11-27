@@ -17,7 +17,9 @@ limitations under the License.
 package engine
 
 import (
+	"fmt"
 	"sort"
+	"strconv"
 	"sync"
 	"time"
 
@@ -213,7 +215,26 @@ func (c *tsmMergeCursor) AddLoc() error {
 		if err != nil {
 			return err
 		}
-
+		var msg []byte
+		msg = append(msg, "limitcut read order files max/min times:\n"...)
+		for i := 0; i < c.locations.Len(); i++ {
+			olf := c.locations.GetLocation(i)
+			min, max := olf.GetChunkMeta().MinMaxTime()
+			msg = append(msg, "min:"...)
+			msg = append(msg, []byte(strconv.FormatInt(min, 10))...)
+			msg = append(msg, " max:"...)
+			msg = append(msg, []byte(strconv.FormatInt(max, 10))...)
+		}
+		msg = append(msg, "\nunorder files max/min times:\n"...)
+		for i := 0; i < c.outOfOrderLocations.Len(); i++ {
+			olf := c.outOfOrderLocations.GetLocation(i)
+			min, max := olf.GetChunkMeta().MinMaxTime()
+			msg = append(msg, "min:"...)
+			msg = append(msg, []byte(strconv.FormatInt(min, 10))...)
+			msg = append(msg, " max:"...)
+			msg = append(msg, []byte(strconv.FormatInt(max, 10))...)
+		}
+		fmt.Println(string(msg))
 		limitFirstTime = getFirstTime(orderFirstTime, unorderFirstTime, c.ctx.querySchema.Options().IsAscending())
 	} else {
 		err = AddLocationsWithInit(c.locations, c.ctx.readers.Orders, c.ctx, c.sid)
