@@ -1086,6 +1086,7 @@ func (b *ColumnBuilder) encodeTimeColumn(cols []record.ColVal, offset int64) err
 		b.cm.growTimeRangeEntry()
 		b.cm.timeRange[len(b.cm.timeRange)-1].setMinTime(times[0])
 		b.cm.timeRange[len(b.cm.timeRange)-1].setMaxTime(times[len(times)-1])
+		record.CheckTimes(times)
 		m.setOffset(offset)
 
 		pos := len(b.data)

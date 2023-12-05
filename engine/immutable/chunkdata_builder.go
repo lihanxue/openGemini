@@ -98,6 +98,7 @@ func (b *ChunkDataBuilder) EncodeTime(offset int64) error {
 		m.setSize(size)
 		b.chunkMeta.timeRange[i].setMinTime(values[0])
 		b.chunkMeta.timeRange[i].setMaxTime(values[len(values)-1])
+		record.CheckTimes(values)
 		offset += int64(size)
 		b.chunkMeta.size += size
 	}
