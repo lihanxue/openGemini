@@ -54,4 +54,5 @@ type Options interface {
 	GetTimeFirstKey() bool
 	SetSortFields(influxql.SortFields)
 	GetSortFields() influxql.SortFields
+	FieldWildcard() bool
 }

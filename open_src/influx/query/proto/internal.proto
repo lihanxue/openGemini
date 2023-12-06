@@ -2,7 +2,7 @@
 syntax = "proto3";
 package executor;
 
-option go_package = ".;executor";
+option go_package = "./;executor";
 
 message ProcessorOptions {
     string               Name = 23;
@@ -37,6 +37,7 @@ message ProcessorOptions {
     bool        GroupByAllDims = 32;
     uint32      EngineType = 33;
     string      SortFields = 34;
+    bool HasFieldWildcard = 35;
 }
 
 message Measurement {
@@ -47,7 +48,7 @@ message Measurement {
     bool   IsTarget = 5;
     string SystemIterator = 6;
     uint32 EngineType = 7;
-    optional IndexRelation indexRelation = 8;
+    IndexRelation indexRelation = 8;
 }
 
 message IndexRelation {

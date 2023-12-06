@@ -73,6 +73,7 @@ func encodeProcessorOptions(opt *ProcessorOptions) *internal.ProcessorOptions {
 		QueryId:               opt.QueryId,
 		SeriesKey:             opt.SeriesKey,
 		GroupByAllDims:        opt.GroupByAllDims,
+		HasFieldWildcard:      opt.HasFieldWildcard,
 	}
 
 	// Set expression, if set.
@@ -141,6 +142,7 @@ func decodeProcessorOptions(pb *internal.ProcessorOptions) (*ProcessorOptions, e
 		QueryId:               pb.GetQueryId(),
 		SeriesKey:             pb.GetSeriesKey(),
 		GroupByAllDims:        pb.GetGroupByAllDims(),
+		HasFieldWildcard:      pb.HasFieldWildcard,
 	}
 
 	// Set expression, if set.

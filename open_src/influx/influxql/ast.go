@@ -1440,6 +1440,8 @@ type SelectStatement struct {
 	UnnestSource []*Unnest
 
 	Scroll Scroll
+
+	HasWildcardField bool
 }
 
 func (s *SelectStatement) CheckUnnest() error {
@@ -2056,6 +2058,7 @@ func (s *SelectStatement) RewriteFields(m FieldMapper, batchEn bool, hasJoin boo
 			}
 		}
 		other.Fields = rwFields
+		other.HasWildcardField = hasFieldWildcard
 	}
 
 	// Rewrite all wildcard GROUP BY fields

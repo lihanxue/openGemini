@@ -222,6 +222,8 @@ type ProcessorOptions struct {
 	isTimeFirstKey bool
 
 	SortFields influxql.SortFields
+
+	HasFieldWildcard bool
 }
 
 // NewProcessorOptionsStmt creates the iterator options from stmt.
@@ -285,7 +287,7 @@ func NewProcessorOptionsStmt(stmt *influxql.SelectStatement, sopt SelectOptions)
 	opt.AbortChan = sopt.AbortChan
 	opt.RowsChan = sopt.RowsChan
 	opt.GroupByAllDims = stmt.GroupByAllDims
-
+	opt.HasFieldWildcard = stmt.HasWildcardField
 	return opt, nil
 }
 
@@ -589,6 +591,10 @@ func (opt *ProcessorOptions) HaveOnlyCSStore() bool {
 
 func (opt *ProcessorOptions) SetFill(fill influxql.FillOption) {
 	opt.Fill = fill
+}
+
+func (opt *ProcessorOptions) FieldWildcard() bool {
+	return opt.HasFieldWildcard
 }
 
 func ContainDim(des []string, src string) bool {

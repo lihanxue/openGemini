@@ -601,7 +601,7 @@ func (s *shard) newLazyTagSetCursor(ctx *idKeyCursorContext, span *tracing.Span,
 		start:      start,
 		step:       step,
 		havePreAgg: matchPreAgg(schema, ctx),
-		doLimitCut: schema.CanLimitCut() && schema.Options().GetLimit()+schema.Options().GetOffset() < len(tagSet.IDs),
+		doLimitCut: schema.CanLimitCut() && schema.Options().GetLimit()+schema.Options().GetOffset() < len(tagSet.IDs) && schema.Options().FieldWildcard(),
 		lazyInit:   true,
 		cursorSpan: span,
 	}
@@ -639,7 +639,7 @@ func (s *shard) newTagSetCursor(ctx *idKeyCursorContext, span *tracing.Span, sch
 	var itrs *comm.KeyCursors
 	var err error
 
-	if schema.CanLimitCut() && schema.Options().GetLimit()+schema.Options().GetOffset() < len(tagSet.IDs) {
+	if schema.CanLimitCut() && schema.Options().GetLimit()+schema.Options().GetOffset() < len(tagSet.IDs) && schema.Options().FieldWildcard() {
 		itrs, err = itrsInitWithLimit(ctx, span, schema, tagSet, start, step, havePreAgg, lazyInit)
 	} else {
 		itrs, err = itrsInit(ctx, span, schema, tagSet, start, step, havePreAgg, lazyInit)
